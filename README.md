@@ -1,5 +1,7 @@
 # Sauna-Clock-WEB-App
 
+![hsbl-ko-gyo github io_Sauna-Clock-WEB-App_ - Google Chrome 2023-06-18 18-14-34_1](https://github.com/HSBL-ko-gyo/Sauna-Clock-WEB-App/assets/128065816/c806012a-32a1-4c40-b4eb-bec145940f72)
+  
 このプロジェクトは、日本のサウナによく見られる12分計をJavaScriptで実装したものです。  
 HTMLのcanvas要素上に、一定時間ごとに更新されるアナログ時計の針を描画します。  
 このアプリは以外と定期的な時間を確認するのに便利です。秒針もあります。
