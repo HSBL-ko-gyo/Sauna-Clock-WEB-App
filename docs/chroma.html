@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <title>サウナ時計WEBApp | ハシビロ工業</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="サウナの12分計をJavaScriptで実装したサウナ時計WEBApp。ユーザーは1周の時間を自由に設定でき、定期的な時間の確認に便利です。">
+    <meta name="keywords" content="サウナ時計,サウナ, Sauna-Clock-WEB-App, ハシビロ工業, JavaScript, 12分計, アナログ時計, OBS">
+    <style>
+        body {
+            background-color: #00FF00;
+            /* Green chroma key */
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="clock" width="600" height="600"></canvas>
+    <br>
+    <label for="rotationTime">Rotation Time (minutes): </label>
+    <input type="number" id="rotationTime" min="1" value="12" onchange="resetClock()">
+    <br>
+    <p>作った人<a href="https://twitter.com/HSBL_Industrial">@ハシビロ工業</a> / <a
+            href="https://sites.google.com/view/hsbl-industrial-hp/home">HP</a>
+        / <a href="https://github.com/HSBL-ko-gyo/Sauna-Clock-WEB-App">GitHub</a></p>
+
+        <p><a href="index.html">背景白ページに移動</a></p>
+    <script>
+        var canvas = document.getElementById('clock');
+        var ctx = canvas.getContext('2d');
+
+        var clockRadius = 280; // 半径を修正
+        var clockX = canvas.width / 2;
+        var clockY = canvas.height / 2;
+
+        var rotationTime = document.getElementById('rotationTime').value; // 初期ローテーションタイムは12分
+        var startTime = new Date(); // スタート時間を保存
+
+        function resetClock() {
+            startTime = new Date(); // スタート時間をリセット
+            rotationTime = document.getElementById('rotationTime').value; // ユーザーが時間を変更した場合に備えて更新
+        }
+
+        function drawClock() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the clock face
+            ctx.beginPath();
+            ctx.arc(clockX, clockY, clockRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = "#FFF";
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.arc(clockX, clockY, clockRadius, 0, 2 * Math.PI);
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            // Add minute markers
+            for (var i = 1; i <= 12; i++) { // 0時のマーカーを削除
+                var angle = (i * 360 / 12 - 90) * Math.PI / 180;
+                var markerX = clockX + clockRadius * Math.cos(angle);
+                var markerY = clockY + clockRadius * Math.sin(angle);
+                var innerMarkerX = clockX + clockRadius * 0.9 * Math.cos(angle);
+                var innerMarkerY = clockY + clockRadius * 0.9 * Math.sin(angle);
+
+                ctx.beginPath();
+                ctx.moveTo(innerMarkerX, innerMarkerY);
+                ctx.lineTo(markerX, markerY);
+                ctx.strokeStyle = "#000";
+                ctx.stroke();
+            }
+
+            var now = new Date();
+            var elapsedMilliseconds = now - startTime;
+            var secondsRatio = elapsedMilliseconds / (rotationTime * 60 * 1000);
+
+            var secondAngle = (secondsRatio * 360 - 90) * Math.PI / 180;
+            var secondHandRadius = clockRadius * 0.8;
+            var secondHandX = clockX + secondHandRadius * Math.cos(secondAngle);
+            var secondHandY = clockY + secondHandRadius * Math.sin(secondAngle);
+
+            // Draw the minute hand
+            ctx.beginPath();
+            ctx.moveTo(clockX, clockY);
+            ctx.lineTo(secondHandX, secondHandY);
+            ctx.strokeStyle = "#0000FF";
+            ctx.lineWidth = 6;
+            ctx.stroke();
+
+            // Draw the second hand
+            var elapsedMillisecondsForSecondHand = elapsedMilliseconds % 60000;
+            var secondHandRatio = elapsedMillisecondsForSecondHand / 60000;
+            var secondHandAngle = (secondHandRatio * 360 - 90) * Math.PI / 180;
+            var secondHandX = clockX + clockRadius * 0.7 * Math.cos(secondHandAngle);
+            var secondHandY = clockY + clockRadius * 0.7 * Math.sin(secondHandAngle);
+
+            ctx.beginPath();
+            ctx.moveTo(clockX, clockY);
+            ctx.lineTo(secondHandX, secondHandY);
+            ctx.strokeStyle = "#FF0000";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+        }
+
+        setInterval(drawClock, 10); // 10ミリ秒ごとに描画を更新
+
+    </script>
+</body>
+
+</html>

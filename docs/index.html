@@ -5,16 +5,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="サウナの12分計をJavaScriptで実装したサウナ時計WEBApp。ユーザーは1周の時間を自由に設定でき、定期的な時間の確認に便利です。">
-    <meta name="keywords" content="サウナ時計,サウナ, Sauna-Clock-WEB-App, ハシビロ工業, JavaScript, 12分計, アナログ時計">
+    <meta name="keywords" content="サウナ時計,サウナ, Sauna-Clock-WEB-App, ハシビロ工業, JavaScript, 12分計, アナログ時計, OBS">
 </head>
 <body>
-<canvas id="clock" width="600" height="600" style="background-color:#FFF">
-</canvas>
+<canvas id="clock" width="600" height="600" style="background-color:#FFF"></canvas>
 <br>
 <label for="rotationTime">Rotation Time (minutes): </label>
 <input type="number" id="rotationTime" min="1" value="12" onchange="resetClock()">
 <br><p>作った人<a href="https://twitter.com/HSBL_Industrial">@ハシビロ工業</a> / <a href="https://sites.google.com/view/hsbl-industrial-hp/home">HP</a>
  / <a href="https://github.com/HSBL-ko-gyo/Sauna-Clock-WEB-App">GitHub</a></p>
+
+<!-- Add a link to the chroma key page -->
+<p><a href="chroma.html">クロマキーページに移動</a></p>
+
 <script>
 var canvas = document.getElementById('clock');
 var ctx = canvas.getContext('2d');
